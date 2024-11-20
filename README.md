@@ -4,12 +4,14 @@
 
 ```bash
 # If you use nix, otherwise install python & venv deps manually
-nix develop
+nix develop # or `direnv allow`
 # Enable venv
 python -m venv .venv
-source venv/bin/activate
+source .venv/bin/activate
 pip install -r requirements.txt
 
 # if using nix, make sure to fix python .so files
 nix run github:GuillaumeDesforges/fix-python -- --venv .venv
+
+python main.py # Run bier example
 ```
