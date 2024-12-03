@@ -5,9 +5,9 @@ from beir.retrieval.evaluation import EvaluateRetrieval
 from beir.retrieval.search.dense import DenseRetrievalExactSearch as DRES
 
 import logging
-import pathlib, os
+import pathlib
+import os
 import csv
-import json
 
 #### Just some code to print debug information to stdout
 logging.basicConfig(
@@ -40,6 +40,8 @@ datasets_list = [
     'scifact',
     'msmarco',
     'trec-covid',
+    'webis-touche2020',
+    'fiqa',
     'hotpotqa',
     'quora'
 ]
