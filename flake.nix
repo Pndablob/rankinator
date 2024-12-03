@@ -9,10 +9,10 @@
     in {
       devShells.x86_64-linux.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          python312
-          python312Packages.pip
-          python312Packages.virtualenv
-          
+          python311
+          python311Packages.pip
+          python311Packages.virtualenv
+          zstd
         ];
       };
     };

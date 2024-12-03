@@ -6,6 +6,8 @@ from beir.retrieval.search.dense import DenseRetrievalExactSearch as DRES
 
 import logging
 import pathlib, os
+import csv
+import json
 
 #### Just some code to print debug information to stdout
 logging.basicConfig(
@@ -16,25 +18,91 @@ logging.basicConfig(
 )
 #### /print debug information to stdout
 
-#### Download scifact.zip dataset and unzip the dataset
-dataset = "scifact"
-url = (
-    "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/{}.zip".format(
-        dataset
-    )
-)
-out_dir = os.path.join(pathlib.Path(__file__).parent.absolute(), "datasets")
-data_path = util.download_and_unzip(url, out_dir)
+# List of models
+models_list = [
+    'all-mpnet-base-v2',
+    'multi-qa-mpnet-base-dot-v1',
+    'all-distilroberta-v1',
+    'all-MiniLM-L12-v2',
+    'multi-qa-distilbert-cos-v1',
+    'all-MiniLM-L6-v2',
+    'multi-qa-MiniLM-L6-cos-v1',
+    # 'paraphrase-multilingual-mpnet-base-v2',
+    'paraphrase-albert-small-v2',
+    # 'paraphrase-multilingual-MiniLM-L12-v2',
+    'paraphrase-MiniLM-L3-v2',
+    # 'distiluse-base-multilingual-cased-v1',
+    # 'distiluse-base-multilingual-cased-v2'
+]
 
-#### Provide the data_path where scifact has been downloaded and unzipped
-corpus, queries, qrels = GenericDataLoader(data_folder=data_path).load(split="test")
+# List of datasets
+datasets_list = [
+    'scifact',
+    'msmarco',
+    'trec-covid',
+    'hotpotqa',
+    'quora'
+]
 
-#### Load the SBERT model and retrieve using cosine-similarity
-model = DRES(models.SentenceBERT("msmarco-distilbert-base-tas-b"), batch_size=16)
-retriever = EvaluateRetrieval(
-    model, score_function="dot"
-)  # or "cos_sim" for cosine similarity
-results = retriever.retrieve(corpus, queries)
+# Read existing results and collect completed tasks
+completed_tasks = set()
+if os.path.exists('results.csv'):
+    logging.info('Found existing results.csv. Reading completed tasks.')
+    with open('results.csv', 'r', newline='') as csvfile:
+        dict_reader = csv.DictReader(csvfile)
+        for row in dict_reader:
+            model = row['model']
+            dataset = row['dataset']
+            completed_tasks.add((model, dataset))
+else:
+    logging.info('No existing results.csv found. Starting fresh.')
 
-#### Evaluate your model with NDCG@k, MAP@K, Recall@K and Precision@K  where k = [1,3,5,10,100,1000]
-ndcg, _map, recall, precision = retriever.evaluate(qrels, results, retriever.k_values)
+file_exists = os.path.exists('results.csv')
+
+with open('results.csv', 'a' if file_exists else 'w', newline='') as output_file:
+    dict_writer = None
+    for dataset in datasets_list:
+        logging.info("Processing dataset: {}".format(dataset))
+        try:
+            url = (
+                "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/{}.zip".format(
+                    dataset
+                )
+            )
+            out_dir = os.path.join(pathlib.Path(__file__).parent.absolute(), "datasets")
+            data_path = util.download_and_unzip(url, out_dir)
+            corpus, queries, qrels = GenericDataLoader(data_folder=data_path).load(split="test")
+        except Exception as e:
+            logging.error("Error loading dataset '{}': {}".format(dataset, e))
+            continue  # Skip to the next dataset
+
+        for model_name in models_list:
+            if (model_name, dataset) in completed_tasks:
+                logging.info("Skipping model: {}, dataset: {} (already completed)".format(model_name, dataset))
+                continue
+            logging.info("Processing model: {}".format(model_name))
+            try:
+                model = DRES(models.SentenceBERT(model_name), batch_size=16)
+                retriever = EvaluateRetrieval(model, score_function="dot")  # or "cos_sim" for cosine similarity
+                results = retriever.retrieve(corpus, queries)
+                ndcg, _map, recall, precision = retriever.evaluate(qrels, results, retriever.k_values)
+
+                result_dict = {'model': model_name, 'dataset': dataset}
+                result_dict.update(ndcg)
+                result_dict.update(_map)
+                result_dict.update(recall)
+                result_dict.update(precision)
+
+                # Initialize dict_writer if it's None
+                if dict_writer is None:
+                    keys = result_dict.keys()
+                    dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+                    if not file_exists:
+                        dict_writer.writeheader()
+
+                dict_writer.writerow(result_dict)
+                output_file.flush()  # Ensure data is written to file
+                logging.info("Successfully processed model: {}, dataset: {}".format(model_name, dataset))
+            except Exception as e:
+                logging.error("Error processing model '{}' on dataset '{}': {}".format(model_name, dataset, e))
+                continue  # Skip to the next model
