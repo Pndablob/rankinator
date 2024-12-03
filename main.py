@@ -27,18 +27,14 @@ models_list = [
     'multi-qa-distilbert-cos-v1',
     'all-MiniLM-L6-v2',
     'multi-qa-MiniLM-L6-cos-v1',
-    # 'paraphrase-multilingual-mpnet-base-v2',
     'paraphrase-albert-small-v2',
-    # 'paraphrase-multilingual-MiniLM-L12-v2',
     'paraphrase-MiniLM-L3-v2',
-    # 'distiluse-base-multilingual-cased-v1',
-    # 'distiluse-base-multilingual-cased-v2'
 ]
 
 # List of datasets
 datasets_list = [
     'scifact',
-    'msmarco',
+    # 'msmarco',
     'trec-covid',
     'webis-touche2020',
     'fiqa',
