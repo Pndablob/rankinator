@@ -21,25 +21,26 @@ logging.basicConfig(
 # List of models
 models_list = [
     'all-mpnet-base-v2',
-    'multi-qa-mpnet-base-dot-v1',
     'all-distilroberta-v1',
     'all-MiniLM-L12-v2',
-    'multi-qa-distilbert-cos-v1',
     'all-MiniLM-L6-v2',
-    'multi-qa-MiniLM-L6-cos-v1',
     'paraphrase-albert-small-v2',
     'paraphrase-MiniLM-L3-v2',
+    'multi-qa-mpnet-base-dot-v1',
+    'multi-qa-distilbert-cos-v1',
+    'multi-qa-MiniLM-L6-cos-v1',
 ]
 
 # List of datasets
 datasets_list = [
     'scifact',
-    # 'msmarco',
     'trec-covid',
     'webis-touche2020',
     'fiqa',
     'hotpotqa',
     'quora'
+    'nq',
+    'dbpedia-entity',
 ]
 
 # Read existing results and collect completed tasks
