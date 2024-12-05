@@ -100,7 +100,7 @@
   "Recall": (
     "Recall@1", "Recall@3", "Recall@5", "Recall@10", "Recall@100", "Recall@1000"
   ),
-  "P": (
+  "Precision": (
     "P@1", "P@3", "P@5", "P@10", "P@100", "P@1000"
   ),
 )
