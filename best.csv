@@ -1,0 +1,10 @@
+dataset,NDCG@10,MAP@10,Recall@10,P@10
+trec-covid,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1
+hotpotqa,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1
+nq,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1
+fiqa,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2
+webis-touche2020,all-mpnet-base-v2,multi-qa-distilbert-cos-v1,multi-qa-distilbert-cos-v1,multi-qa-distilbert-cos-v1
+quora,multi-qa-distilbert-cos-v1,multi-qa-distilbert-cos-v1,all-MiniLM-L12-v2,all-MiniLM-L12-v2
+dbpedia-entity,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-mpnet-base-dot-v1,multi-qa-distilbert-cos-v1
+scidocs,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2
+scifact,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2,all-mpnet-base-v2
