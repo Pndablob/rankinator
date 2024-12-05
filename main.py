@@ -38,7 +38,7 @@ datasets_list = [
     'webis-touche2020',
     'fiqa',
     'hotpotqa',
-    'quora'
+    'quora',
     'nq',
     'dbpedia-entity',
 ]
