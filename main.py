@@ -33,14 +33,15 @@ models_list = [
 
 # List of datasets
 datasets_list = [
-    'scifact',
     'trec-covid',
-    'webis-touche2020',
-    'fiqa',
     'hotpotqa',
-    'quora',
     'nq',
+    'fiqa',
+    'webis-touche2020',
+    'quora',
     'dbpedia-entity',
+    'scidocs',
+    'scifact',
 ]
 
 # Read existing results and collect completed tasks
