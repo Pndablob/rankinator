@@ -17,13 +17,15 @@
 
 // Datasets to include
 #let datasets = (
-  "scifact",
-  // "msmarco",
-  "trec-covid",
-  "webis-touche2020",
-  "fiqa",
-  "hotpotqa",
-  "quora"
+    "trec-covid",
+    "hotpotqa",
+    "nq",
+    "fiqa",
+    "webis-touche2020",
+    "quora",
+    "dbpedia-entity",
+    "scidocs",
+    "scifact",
 )
 
 // Function to convert csv values to floats
@@ -99,7 +101,7 @@
   "Recall": (
     "Recall@1", "Recall@3", "Recall@5", "Recall@10", "Recall@100", "Recall@1000"
   ),
-  "P": (
+  "Precision": (
     "P@1", "P@3", "P@5", "P@10", "P@100", "P@1000"
   ),
 )
