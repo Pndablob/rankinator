@@ -17,13 +17,14 @@
 
 // Datasets to include
 #let datasets = (
-  "scifact",
-  // "msmarco",
-  "trec-covid",
-  "webis-touche2020",
-  "fiqa",
-  "hotpotqa",
-  "quora"
+    'scifact',
+    'trec-covid',
+    'webis-touche2020',
+    'fiqa',
+    'hotpotqa',
+    'quora'
+    'nq',
+    'dbpedia-entity',
 )
 
 // Function to convert csv values to floats
